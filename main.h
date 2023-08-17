@@ -29,7 +29,7 @@ struct list_path *next;
 void loop(void);
 list_path *load_path(void);
 void process_input(list_path *dirs, char *line);
-int valid_command(const char *value);
+/*int valid_command(const char *value);*/
 void execute_command(const char *full_command, char *const argv[]);
 void exit_command(char *line);
 

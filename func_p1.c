@@ -91,12 +91,12 @@ void process_input(list_path *dirs, char *line)
 		printenv();
 		return;
 	}
-	if (valid_command(argv[0]) == 0)
-	{
-		full_command = argv[0];
-		execute_command(full_command, argv); 
-		return;
-	}
+	/*	if (valid_command(argv[0]) == 0)*/
+	/*	{*/
+	/*		full_command = argv[0];*/
+	/*		execute_command(full_command, argv); */
+	/*		return;*/
+	/*	}*/
 	current = dirs;
 	while (current != NULL)
 	{
