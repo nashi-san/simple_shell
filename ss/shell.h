@@ -57,11 +57,13 @@ int exit_builtin(char *line, char **argv, int n, int *exit_status);
 
 /*funcs_custom*/
 char *_which(char *command);
-/* my_strtok*/
-char *_strtok(char *str, const char *delimiters);
+/*char *_strtok(char *str, const char *delimiters);*/
+/*two strtok in which func and two strtok in parse func*/
+
 /* my_getline*/
-ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
-int _getchar(void);
+/*ssize_t _getline(char **lineptr, size_t *n, FILE *stream);*/
+/*int _getchar(void);*/
+
 /*funcs_print*/
 void err_msg_cmd(char **argv, int n);
 void err_msg_exit(char *status, int n);

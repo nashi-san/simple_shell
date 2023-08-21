@@ -1,5 +1,30 @@
 #include "shell.h"
 
+/**
+ * _getchar - ..
+ *
+ * Return: ..
+ */
+int _getchar(void)
+{
+	char c;
+	ssize_t bytes_read = read(STDIN_FILENO, &c, 1);
+
+	if (bytes_read <= 0)
+	{
+		return (EOF);
+	}
+	return (c);
+}
+
+/**
+ * _getline - ..
+ * @lineptr: ..
+ * @n: ..
+ * @stream: ..
+ *
+ * Return: ..
+ */
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
 	size_t buf_size = BUF_SIZE, i = 0;
@@ -38,15 +63,4 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 	*lineptr = buffer;
 	*n = buf_size;
 	return (i);
-}
-int _getchar(void)
-{
-	char c;
-	ssize_t bytes_read = read(STDIN_FILENO, &c, 1);
-
-	if (bytes_read <= 0)
-	{
-		return (EOF);
-	}
-	return (c);
 }

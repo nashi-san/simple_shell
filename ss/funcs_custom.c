@@ -1,6 +1,44 @@
 #include "shell.h"
 
 /**
+ * _strtok - ..
+ * @str: ..
+ * @delimiters: ..
+ *
+ * Return: ..
+ */
+char *_strtok(char *str, const char *delimiters)
+{
+	char *token;
+	static char *current;
+
+	if (str != NULL)
+	{
+		current = str;
+	}
+	else
+	{
+		if (current == NULL || *current == '\0')
+		{
+			return (NULL);
+		}
+	}
+	token = current;
+	while (*current != '\0')
+	{
+		if (strchr(delimiters, *current) != NULL)
+		{
+			*current = '\0';
+			current++;
+			return (token);
+		}
+		current++;
+	}
+
+	return (token);
+}
+
+/**
  * _which - locates the path of a command
  * @command: command
  *
@@ -20,7 +58,7 @@ char *_which(char *command)
 		if (path_copy == NULL)
 			return (NULL);
 		command_length = strlen(command);
-		path_token = _strtok(path_copy, ":");
+		path_token = strtok(path_copy, ":");
 		while (path_token != NULL)
 		{
 			directory_length = strlen(path_token);
@@ -41,7 +79,7 @@ char *_which(char *command)
 			else
 			{
 				free(file_path);
-				path_token = _strtok(NULL, ":");
+				path_token = strtok(NULL, ":");
 			}
 		}
 		free(path_copy);
