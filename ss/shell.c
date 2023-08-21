@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 		if (interactive == 1)
 			_puts_stdout("$ ");
 		n++;
-		nread = getline(&line, &len, stdin);
+		nread = _getline(&line, &len, stdin);
 		handle_comment(line);
 		if (nread != -1)
 		{
