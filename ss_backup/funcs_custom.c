@@ -1,41 +1,71 @@
 #include "shell.h"
 
 /**
- * _strtok - ..
- * @str: ..
- * @delimiters: ..
+ * _getchar - ..
  *
  * Return: ..
  */
-char *_strtok(char *str, const char *delimiters)
+int _getchar(void)
 {
-	char *token;
-	static char *current;
+	char c;
+	ssize_t bytes_read = read(STDIN_FILENO, &c, 1);
 
-	if (str != NULL)
+	if (bytes_read <= 0)
 	{
-		current = str;
+		return (EOF);
 	}
-	else
-	{
-		if (current == NULL || *current == '\0')
-		{
-			return (NULL);
-		}
-	}
-	token = current;
-	while (*current != '\0')
-	{
-		if (strchr(delimiters, *current) != NULL)
-		{
-			*current = '\0';
-			current++;
-			return (token);
-		}
-		current++;
-	}
+	return (c);
+}
 
-	return (token);
+/**
+ * _getline - ..
+ * @lineptr: ..
+ * @n: ..
+ * @stream: ..
+ *
+ * Return: ..
+ */
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
+{
+	size_t buf_size = BUF_SIZE, buf_newsize, i = 0;
+	char *buffer;
+	char *new_buffer;
+	int c;
+
+	if (lineptr == NULL || n == NULL || stream == NULL)
+		return (-1);
+	buffer = malloc(buf_size);
+	if (buffer == NULL)
+		return (-1);
+	while ((c = _getchar()) != '\n' && c != EOF)
+	{
+		if (i >= buf_size - 1)
+		{
+			buf_newsize = buf_size + BUF_SIZE;
+			new_buffer = _realloc(buffer, buf_size, buf_newsize);
+			if (new_buffer == NULL)
+			{
+				free(buffer);
+				return (-1);
+			}
+			buffer = new_buffer;
+			buf_size = buf_newsize;
+		}
+		buffer[i++] = c;
+	}
+	buffer[i] = '\0';
+	if (i == 0 && c == EOF)
+	{
+		free(buffer);
+		return (-1);
+	}
+	if (*lineptr != NULL)
+	{
+		free(*lineptr);
+	}
+	*lineptr = buffer;
+	*n = buf_size;
+	return (i);
 }
 
 /**
