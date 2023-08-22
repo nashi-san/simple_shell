@@ -16,14 +16,14 @@
 /*globalvar*/
 extern char **environ;
 
-/*buffermacro*/
-#define BUF_SIZE 64
+/*buffer*/
+#define BUF_SIZE 128
 
 /*struct*/
 /**
- * struct builtin - ..
- * @name: ..
- * @function: ..
+ * struct builtin - built-ins names and functions
+ * @name: built-in name
+ * @function: built-in function
  */
 struct builtin
 {
@@ -57,12 +57,12 @@ int exit_builtin(char *line, char **argv, int n, int *exit_status);
 
 /*funcs_custom*/
 char *_which(char *command);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
+int _getchar(void);
+
+/*my_strtok*/
 /*char *_strtok(char *str, const char *delimiters);*/
 /*two strtok in which func and two strtok in parse func*/
-
-/* my_getline*/
-/*ssize_t _getline(char **lineptr, size_t *n, FILE *stream);*/
-/*int _getchar(void);*/
 
 /*funcs_print*/
 void err_msg_cmd(char **argv, int n);
