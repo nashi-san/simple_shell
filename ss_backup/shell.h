@@ -64,9 +64,11 @@ int _getchar(void);
 /*char *_strtok(char *str, const char *delimiters);*/
 /*two strtok in which func and two strtok in parse func*/
 
-/*funcs_print*/
+/*funcs_errmsgs*/
 void err_msg_cmd(char **argv, int n);
 void err_msg_exit(char *status, int n);
+
+/*funcs_print*/
 int _putchar(char c);
 int _puts_stderr(char *s);
 void _puts_stdout(char *str);
