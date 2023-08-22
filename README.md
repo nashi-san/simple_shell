@@ -1,9 +1,9 @@
 TEST REPO
 
 Update:
-betty, memory leaks, fix getline = done
-0/1/2/3/4/5/6/8/15 = done
-TASK 7 (fix strtok) + TASK 9 + TASK 10 = in progress
+betty, memory leaks, fix getline = done     
+0/1/2/3/4/5/6/8/15 = done   
+TASK 7 (fix strtok) + TASK 9 + TASK 10 = in progress     
 
 --------------------------------
 the code is working with no errors and no memory leaks for all tasks from 0 to 8 + 15
