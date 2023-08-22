@@ -44,7 +44,8 @@ int execute_command(char **argv, char *path);
 void free_array(char **argv);
 char *_memcpy(char *dest, char *src, unsigned int m);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-
+int unsetenv_builtin(char *line, char **argv, int n, int *exit_status);
+int _unsetenv(char *variable, int *exit_status);
 /*funcs_str*/
 char *n_conversion(int n);
 int _strlen(char *str);
