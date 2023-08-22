@@ -1,4 +1,7 @@
 TEST REPO
+I HAVE MOVED TO ssv2, customized all strings fucntions used in all functions , updated header renamed and added another file for string functions, reintegrated strtok since it showed no error in the first place, in all all function are customized (exception of getenv) 
+fixed all betty documentation and style
+please pull before submitting any changes
 
 Update:
 betty, memory leaks, fix getline = done     
