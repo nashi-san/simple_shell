@@ -117,6 +117,7 @@ int execute_builtin(char *line, char **argv, int n, int *exit_status)
 	builtin_t builtins[] = {
 		{"exit", exit_builtin},
 		{"env", env_builtin},
+		{"setenv", setenv_builtin},
 		{NULL, NULL}
 	};
 

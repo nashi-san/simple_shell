@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- * _getchar - ..
+ * _getchar - reads a character from standard input.
  *
- * Return: ..
+ * Return: the character read, or EOF on failure or end of file.
  */
 int _getchar(void)
 {
@@ -18,12 +18,12 @@ int _getchar(void)
 }
 
 /**
- * _getline - ..
- * @lineptr: ..
- * @n: ..
- * @stream: ..
+ * _getline - reads a line from a file stream
+ * @lineptr: a double pointer pointer to the buffer to store the read line
+ * @n: pointer to the size of the buffer
+ * @stream: file stream to read from
  *
- * Return: ..
+ * Return: the number of characters read, or -1 on failure.
  */
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {

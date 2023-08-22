@@ -54,6 +54,8 @@ int _atoi(char *s);
 /*funcs_built-ins*/
 int env_builtin(char *line, char **argv, int n, int *exit_status);
 int exit_builtin(char *line, char **argv, int n, int *exit_status);
+int setenv_builtin(char *line, char **argv, int n, int *exit_status);
+int _setenv(char *variable, char *value, int *exit_status);
 
 /*funcs_custom*/
 char *_which(char *command);
@@ -72,5 +74,6 @@ void err_msg_exit(char *status, int n);
 int _putchar(char c);
 int _puts_stderr(char *s);
 void _puts_stdout(char *str);
+
 
 #endif
