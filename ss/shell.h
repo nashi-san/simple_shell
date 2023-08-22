@@ -44,8 +44,7 @@ int execute_command(char **argv, char *path);
 void free_array(char **argv);
 char *_memcpy(char *dest, char *src, unsigned int m);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-int unsetenv_builtin(char *line, char **argv, int n, int *exit_status);
-int _unsetenv(char *variable, int *exit_status);
+
 /*funcs_str*/
 char *n_conversion(int n);
 int _strlen(char *str);
@@ -55,8 +54,12 @@ int _atoi(char *s);
 /*funcs_built-ins*/
 int env_builtin(char *line, char **argv, int n, int *exit_status);
 int exit_builtin(char *line, char **argv, int n, int *exit_status);
+
+/*funcs_env*/
 int setenv_builtin(char *line, char **argv, int n, int *exit_status);
 int _setenv(char *variable, char *value, int *exit_status);
+int unsetenv_builtin(char *line, char **argv, int n, int *exit_status);
+int _unsetenv(char *variable, int *exit_status);
 
 /*funcs_custom*/
 char *_which(char *command);
