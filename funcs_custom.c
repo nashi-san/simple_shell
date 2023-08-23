@@ -159,3 +159,29 @@ char *_which(char *command)
 	}
 	return (NULL);
 }
+/**
+ * _getenv - gets the value of an environ variable
+ * @variable: variable name
+ *
+ * Return: string
+ */
+char *_getenv(char *variable)
+{
+	char *value = NULL;
+	int i = 0;
+	int variable_len = _strlen(variable);
+
+	for (i = 0; env_copy[i] != NULL; i++)
+	{
+		if (_strncmp(env_copy[i], variable, variable_len) == 0)
+		{
+			value = _strchr(env_copy[i], '=');
+			if (value != NULL)
+			{
+				value++;
+				return (value);
+			}
+		}
+	}
+	return (NULL);
+}

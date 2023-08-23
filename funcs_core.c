@@ -15,7 +15,6 @@ int exe(char **argv, int n)
 	path = _which(argv[0]);
 	if (path == NULL)
 	{
-		/* fprintf(stderr, "./hsh: %d: %s: not found\n", n, argv[0]);*/
 		err_msg_cmd(argv, n);
 		exit_status = 127;
 	}
@@ -67,9 +66,9 @@ char **process_line(char *line, int *argc)
 
 	size = BUF_SIZE;
 	array = malloc(size * sizeof(char *));
-	if (!array)
+	if (array == NULL)
 	{
-		perror("Memory allocation error"), exit(1);
+		perror("memory allocation"), exit(1);
 	}
 	token = _strtok(line, delim);
 	while (token != NULL)
@@ -78,25 +77,25 @@ char **process_line(char *line, int *argc)
 		{
 			new_size = size * 2;
 			new_array = _realloc(array, size, new_size * sizeof(char *));
-			if (!new_array)
+			if (new_array == NULL)
 			{
-				perror("Memory allocation error"), exit(1);
+				perror("memory allocation"), exit(1);
 			}
 			array = new_array;
 			size = new_size;
 		}
 		array[i] = _strdup(token);
-		if (!array[i])
+		if (array[i] == NULL)
 		{
-			perror("Memory allocation error"), exit(1);
+			perror("memory allocation"), exit(1);
 		}
 		i++;
 		token = _strtok(NULL, delim);
 	}
 	new_array = _realloc(array, size, (i + 1) * sizeof(char *));
-	if (!new_array)
+	if (new_array == NULL)
 	{
-		perror("Memory allocation error"), exit(1);
+		perror("memory allocation"), exit(1);
 	}
 	array = new_array;
 	array[i] = NULL;
@@ -122,36 +121,19 @@ int execute_builtin(char *line, char **argv, int n, int *exit_status)
 		{"unsetenv", unsetenv_builtin},
 		{NULL, NULL}
 	};
-	char **env_copy = NULL;
-	int i, j, result;
-	for (i = 0; environ[i] != NULL; i++) {
-		env_copy = realloc(env_copy, (i + 2) * sizeof(char *));
-		env_copy[i] = strdup(environ[i]);
-	}
-	env_copy[i] = NULL;
+
+	int i;
 
 	for (i = 0; builtins[i].name != NULL; i++)
 	{
 		if (_strcmp(argv[0], builtins[i].name) == 0)
 		{
-			result = builtins[i].function(line, argv, n, exit_status, &env_copy);
-
-			for (j = 0; env_copy[j] != NULL; j++)
-			{
-				free(env_copy[j]);
-			}
-			free(env_copy);
-			return (result);
+			return (builtins[i].function(line, argv, n, exit_status));
 		}
 	}
-
-	for (j = 0; env_copy[j] != NULL; j++) {
-		free(env_copy[j]);
-	}
-	free(env_copy);
-
 	return (1);
 }
+
 /**
  * execute_command - calls execve to execute a command
  * @argv: array of tokens

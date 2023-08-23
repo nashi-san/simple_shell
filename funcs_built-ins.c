@@ -12,14 +12,13 @@
 int env_builtin(__attribute__((unused)) char *line,
 		__attribute__((unused)) char **argv,
 		__attribute__((unused)) int n,
-		__attribute__((unused)) int *exit_status,
-		char ***env_copy)
+		__attribute__((unused)) int *exit_status)
 {
 	int i = 0;
 
-	while ((*env_copy)[i] != NULL)
+	while (env_copy[i] != NULL)
 	{
-		_puts_stdout((*env_copy)[i]);
+		_puts_stdout(env_copy[i]);
 		_putchar('\n');
 		i++;
 	}
@@ -35,8 +34,7 @@ int env_builtin(__attribute__((unused)) char *line,
  *
  * Return: 0 on failure, otherwise exits with an exit status
  */
-int exit_builtin(char *line, char **argv, int n, int *exit_status,
-		__attribute__((unused)) char ***env_copy)
+int exit_builtin(char *line, char **argv, int n, int *exit_status)
 {
 	int i, is_valid, status_converted;
 	char *status = argv[1];
@@ -55,13 +53,13 @@ int exit_builtin(char *line, char **argv, int n, int *exit_status,
 		status_converted = _atoi(status);
 		if (is_valid && status_converted > 0)
 		{
+			free_array(env_copy);
 			free_array(argv);
 			free(line);
 			exit(status_converted);
 		}
 		else
 		{
-			/* fprintf(stderr, "./hsh: %d: exit: Illegal number: %s\n", n, status);*/
 			err_msg_exit(status, n);
 			*exit_status = 2;
 			return (0);
@@ -69,6 +67,7 @@ int exit_builtin(char *line, char **argv, int n, int *exit_status,
 	}
 	else
 	{
+		free_array(env_copy);
 		free_array(argv);
 		free(line);
 		exit(*exit_status);
@@ -85,10 +84,8 @@ int exit_builtin(char *line, char **argv, int n, int *exit_status,
  *
  * Return: 0 on success
  */
-int cd_builtin(__attribute__((unused)) char *line,
-		char **argv, int n,
-		__attribute__((unused)) int *exit_status,
-		__attribute__((unused)) char ***env_copy)
+int cd_builtin(__attribute__((unused)) char *line, char **argv,
+		int n, __attribute__((unused)) int *exit_status)
 {
 	char curr_dir[BUF_SIZE];
 	char *home_dir = _getenv("HOME"), *prev_dir = _getenv("OLDPWD");
@@ -142,8 +139,8 @@ void cd_update_env(void)
 
 	if (getcwd(curr_dir, sizeof(curr_dir)) != NULL)
 	{
-		setenv("OLDPWD", _getenv("PWD"), 1);
-		setenv("PWD", curr_dir, 1);
+		_setenv("OLDPWD", _getenv("PWD"));
+		_setenv("PWD", curr_dir);
 	}
 	else
 	{

@@ -14,6 +14,7 @@ int main(int argc, char **argv)
 	ssize_t nread = 0;
 	int interactive = 0, n = 0, exit_status = 0, is_builtin = 1;
 
+	copy_environ();
 	if (isatty(STDIN_FILENO))
 		interactive = 1;
 	while (1)
@@ -41,9 +42,11 @@ int main(int argc, char **argv)
 			if (interactive == 1)
 				_putchar('\n');
 			free(line);
+			free_array(env_copy);
 			return (exit_status);
 		}
 	}
 	free(line);
+	free_array(env_copy);
 	return (0);
 }
