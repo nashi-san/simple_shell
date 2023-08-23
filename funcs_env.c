@@ -51,7 +51,7 @@ int unsetenv_builtin(__attribute__((unused)) char *line, char **argv,
 {
 	if (argv[1] == NULL)
 	{
-		return (1);
+		return (0);
 	}
 	return (_unsetenv(argv[1]));
 }
@@ -116,7 +116,7 @@ int setenv_builtin(__attribute__((unused)) char *line, char **argv,
 {
 	if (argv[1] == NULL || argv[2] == NULL)
 	{
-		return (1);
+		return (0);
 	}
 	return (_setenv(argv[1], argv[2]));
 }
