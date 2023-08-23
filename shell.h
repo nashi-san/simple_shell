@@ -28,7 +28,7 @@ extern char **environ;
 struct builtin
 {
 	char *name;
-	int (*function)(char *line, char **argv, int n, int *exit_status);
+	int (*function)(char *line, char **argv, int n, int *exit_status, char ***env_copy);
 };
 
 typedef struct builtin builtin_t;
@@ -60,16 +60,16 @@ char *_strcat(char *dest, const char *src);
 char *_strcpy(char *dest, const char *src);
 
 /*funcs_built-ins*/
-int env_builtin(char *line, char **argv, int n, int *exit_status);
-int exit_builtin(char *line, char **argv, int n, int *exit_status);
-int cd_builtin(char *line, char **argv, int n, int *exit_status);
+int env_builtin(char *line, char **argv, int n, int *exit_status, char ***env_copy);
+int exit_builtin(char *line, char **argv, int n, int *exit_status, char ***env_copy);
+int cd_builtin(char *line, char **argv, int n, int *exit_status, char ***env_copy);
 void cd_update_env(void);
 
 /*funcs_env*/
 char *_getenv(char *variable);
-int unsetenv_builtin(char *line, char **argv, int n, int *exit_status);
-int setenv_builtin(char *line, char **argv, int n, int *exit_status);
-int _setenv(char *variable, char *value);
+int unsetenv_builtin(char *line, char **argv, int n, int *exit_status, char ***env_copy);
+int setenv_builtin(char *line, char **argv, int n, int *exit_status, char ***env_copy);
+int _setenv(char *variable, char *value, char ***env_copy);
 
 /*funcs_custom*/
 char *_which(char *command);
