@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- * _getchar - reads a character from standard input.
+ * _getchar - reads a character from standard input
  *
- * Return: the character read, or EOF on failure or end of file.
+ * Return: the character read, or EOF on failure or end of file
  */
 int _getchar(void)
 {
@@ -19,11 +19,11 @@ int _getchar(void)
 
 /**
  * _getline - reads a line from a file stream
- * @lineptr: a double pointer pointer to the buffer to store the read line
+ * @lineptr: a double pointer pointer to the buff to store the read line
  * @n: pointer to the size of the buffer
  * @stream: file stream to read from
  *
- * Return: the number of characters read, or -1 on failure.
+ * Return: the number of characters read, or -1 on failure
  */
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
@@ -69,6 +69,49 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 }
 
 /**
+ * _strtok - tokenizes a string
+ * @str: string
+ * @delimiters: delimiters
+ *
+ * Return: token, NULL if no token was found
+ */
+char *_strtok(char *str, char *delimiters)
+{
+	char *token;
+	static char *current;
+
+	if (str != NULL)
+	{
+		current = str;
+	}
+	else
+	{
+		if (current == NULL || *current == '\0')
+			return (NULL);
+	}
+
+	while (*current != '\0' && strchr(delimiters, *current) != NULL)
+	{
+		current++;
+	}
+	if (*current == '\0')
+		return (NULL);
+
+	token = current;
+	while (*current != '\0' && strchr(delimiters, *current) == NULL)
+	{
+		current++;
+	}
+	if (*current == '\0')
+		return (token);
+
+	*current = '\0';
+	current++;
+
+	return (token);
+}
+
+/**
  * _which - locates the path of a command
  * @command: command
  *
@@ -80,19 +123,19 @@ char *_which(char *command)
 	int command_length, directory_length;
 
 	if (access(command, X_OK) == 0)
-		return (strdup(command));
-	path = getenv("PATH");
+		return (_strdup(command));
+	path = _getenv("PATH");
 	if (path)
 	{
-		path_copy = strdup(path);
+		path_copy = _strdup(path);
 		if (path_copy == NULL)
 			return (NULL);
-		command_length = strlen(command);
-		path_token = strtok(path_copy, ":");
+		command_length = _strlen(command);
+		path_token = _strtok(path_copy, ":");
 		while (path_token != NULL)
 		{
-			directory_length = strlen(path_token);
-			file_path = (char *)malloc(command_length + directory_length + 2);
+			directory_length = _strlen(path_token);
+			file_path = malloc(command_length + directory_length + 2);
 			if (file_path == NULL)
 			{
 				free(path_copy);
@@ -109,7 +152,7 @@ char *_which(char *command)
 			else
 			{
 				free(file_path);
-				path_token = strtok(NULL, ":");
+				path_token = _strtok(NULL, ":");
 			}
 		}
 		free(path_copy);

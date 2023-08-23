@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t nread = 0;
-	int interactive = 0, n = 0, exit_status = 0, is_builtin = 0;
+	int interactive = 0, n = 0, exit_status = 0, is_builtin = 1;
 
 	if (isatty(STDIN_FILENO))
 		interactive = 1;
@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 			if (argc != 0)
 			{
 				is_builtin = execute_builtin(line, argv, n, &exit_status);
-				if (is_builtin == -1)
+				if (is_builtin == 1)
 				{
 					exit_status = exe(argv, n);
 				}

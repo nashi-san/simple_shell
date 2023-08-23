@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * exe - load the path to a command to be executed
+ * exe - loads the path to a command to be executed
  * @argv: array of tokens
  * @n: count of commands
  *
@@ -54,7 +54,7 @@ void handle_comment(char *line)
 	}
 }
 /**
- * process_line - tokenizes a string
+ * process_line - tokenizes the command line
  * @line: command line (input)
  * @argc: count of tokens
  *
@@ -66,18 +66,18 @@ char **process_line(char *line, int *argc)
 	size_t i = 0, size, new_size;
 
 	size = BUF_SIZE;
-	array = (char **)malloc(size * sizeof(char *));
+	array = malloc(size * sizeof(char *));
 	if (!array)
 	{
 		perror("Memory allocation error"), exit(1);
 	}
-	token = strtok(line, delim);
+	token = _strtok(line, delim);
 	while (token != NULL)
 	{
 		if (i >= size)
 		{
 			new_size = size * 2;
-			new_array = (char **)_realloc(array, size, new_size * sizeof(char *));
+			new_array = _realloc(array, size, new_size * sizeof(char *));
 			if (!new_array)
 			{
 				perror("Memory allocation error"), exit(1);
@@ -85,15 +85,15 @@ char **process_line(char *line, int *argc)
 			array = new_array;
 			size = new_size;
 		}
-		array[i] = strdup(token);
+		array[i] = _strdup(token);
 		if (!array[i])
 		{
 			perror("Memory allocation error"), exit(1);
 		}
 		i++;
-		token = strtok(NULL, delim);
+		token = _strtok(NULL, delim);
 	}
-	new_array = (char **)_realloc(array, size, (i + 1) * sizeof(char *));
+	new_array = _realloc(array, size, (i + 1) * sizeof(char *));
 	if (!new_array)
 	{
 		perror("Memory allocation error"), exit(1);
@@ -110,14 +110,15 @@ char **process_line(char *line, int *argc)
  * @n: count of commands
  * @exit_status: exit status
  *
- * Return: 0 on success, -1 otherwise
+ * Return: 1 if no builtin was found
  */
 int execute_builtin(char *line, char **argv, int n, int *exit_status)
 {
 	builtin_t builtins[] = {
 		{"exit", exit_builtin},
 		{"env", env_builtin},
-		{"setenv", setenv_builtin},
+		{"cd", cd_builtin},
+		{"unsetenv", unsetenv_builtin},
 		{NULL, NULL}
 	};
 
@@ -130,7 +131,7 @@ int execute_builtin(char *line, char **argv, int n, int *exit_status)
 			return (builtins[i].function(line, argv, n, exit_status));
 		}
 	}
-	return (-1);
+	return (1);
 }
 
 /**
