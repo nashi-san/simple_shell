@@ -68,8 +68,8 @@ void cd_update_env(void);
 /*funcs_env*/
 char *_getenv(char *variable);
 int unsetenv_builtin(char *line, char **argv, int n, int *exit_status);
-/*int setenv_builtin(char *line, char **argv, int n, int *exit_status);*/
-/*int _setenv(char *variable, char *value, int *exit_status);*/
+int setenv_builtin(char *line, char **argv, int n, int *exit_status);
+int _setenv(char *variable, char *value);
 
 /*funcs_custom*/
 char *_which(char *command);
