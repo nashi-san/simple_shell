@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * env_builtin - prints the current environment
+ * env_builtin - prints the current environment vars
  * @line: command line (input)
  * @argv: array of tokens
  * @n: count of commands
@@ -18,7 +18,8 @@ int env_builtin(__attribute__((unused)) char *line,
 
 	while (environ[i] != NULL)
 	{
-		printf("%s\n", environ[i]);
+		_puts_stdout(environ[i]);
+		_putchar('\n');
 		i++;
 	}
 	return (0);
@@ -31,7 +32,7 @@ int env_builtin(__attribute__((unused)) char *line,
  * @n: count of commands
  * @exit_status: exit status
  *
- * Return: 0 on success
+ * Return: 0 on failure, otherwise exits with an exit status
  */
 int exit_builtin(char *line, char **argv, int n, int *exit_status)
 {
@@ -43,7 +44,7 @@ int exit_builtin(char *line, char **argv, int n, int *exit_status)
 		is_valid = 1;
 		for (i = 0; status[i]; i++)
 		{
-			if (!isdigit(status[i]))
+			if (!_isdigit(status[i]))
 			{
 				is_valid = 0;
 				break;
@@ -72,60 +73,77 @@ int exit_builtin(char *line, char **argv, int n, int *exit_status)
 	}
 	return (0);
 }
+
 /**
- * setenv_builtin - Built-in function to set environment variable
+ * cd_builtin - handles the cd builtin
  * @line: command line (input)
  * @argv: array of tokens
  * @n: count of commands
  * @exit_status: exit status
  *
- * Return: 1 on success, 0 on failure
+ * Return: 0 on success
  */
-int setenv_builtin(__attribute__((unused)) char *line, char **argv,
-		__attribute__((unused)) int n, int *exit_status)
+int cd_builtin(__attribute__((unused)) char *line,
+		char **argv, int n,
+		__attribute__((unused)) int *exit_status)
 {
-	if (argv[1] == NULL || argv[2] == NULL)
-	{
-		*exit_status = 0;
-		return (0);
-	}
-	return (_setenv(argv[1], argv[2], exit_status));
-}
-/**
- * _setenv - Sets the value of an environment variable
- * @variable: The name of the variable
- * @value: The value to set for the variable
- * @exit_status: Pointer to the exit status variable
- *
- * Return: 1 on success, 0 on failure
- */
-int _setenv(char *variable, char *value, int *exit_status)
-{
-	int i;
-	char *new_var = malloc(strlen(variable) + strlen(value) + 2);
+	char curr_dir[BUF_SIZE];
+	char *home_dir = _getenv("HOME"), *prev_dir = _getenv("OLDPWD");
 
-	if (new_var == NULL)
+	if (argv[1] != NULL)
 	{
-		*exit_status = 0;
-		return (0);
-	}
-
-	strcpy(new_var, variable);
-	strcat(new_var, "=");
-	strcat(new_var, value);
-
-	for (i = 0; environ[i] != NULL; i++)
-	{
-		if (strncmp(environ[i], variable, strlen(variable)) == 0
-			&& environ[i][strlen(variable)] == '=')
+		if (_strcmp(argv[1], "-") == 0)
 		{
-			environ[i] = new_var;
-			*exit_status = 1;
-			return (1);
+			if (prev_dir != NULL)
+			{
+				_puts_stdout(prev_dir), _putchar('\n');
+				if (chdir(prev_dir) != 0)
+					return (-1);
+			}
+			else
+			{
+				if (getcwd(curr_dir, sizeof(curr_dir)) != NULL)
+				{
+					_puts_stdout(curr_dir), _putchar('\n');
+				}
+				else
+					return (-1);
+			}
+		}
+		else
+		{
+			if (chdir(argv[1]) != 0)
+			{
+				err_msg_cd(argv, n);
+				return (-1);
+			}
 		}
 	}
-	environ[i] = new_var;
-	environ[i + 1] = NULL;
-	*exit_status = 1;
-	return (1);
+	else
+	{
+		if (home_dir != NULL && chdir(home_dir) != 0)
+			return (-1);
+	}
+	cd_update_env();
+	return (0);
+}
+
+/**
+ * cd_update_env - updates the oldpwd and pwd in env
+ *
+ * Return: void
+ */
+void cd_update_env(void)
+{
+	char curr_dir[BUF_SIZE];
+
+	if (getcwd(curr_dir, sizeof(curr_dir)) != NULL)
+	{
+		setenv("OLDPWD", _getenv("PWD"), 1);
+		setenv("PWD", curr_dir, 1);
+	}
+	else
+	{
+		perror("getcwd");
+	}
 }

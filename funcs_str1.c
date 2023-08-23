@@ -1,6 +1,24 @@
 #include "shell.h"
 
 /**
+ * _strchr - locates a character in a string
+ * @s: string
+ * @c: char to locate
+ * Return: first occurrence if c is found, NULL otherwise
+ */
+char *_strchr(char *s, char c)
+{
+	int i = 0;
+
+	while (s[i] >= '\0')
+	{
+		if (s[i] == c)
+			return (&s[i]);
+		i++;
+	}
+	return (0);
+}
+/**
  * n_conversion - converts a positive integer to a string
  * @n: positive integer
  *
@@ -33,7 +51,7 @@ char *n_conversion(int n)
  *
  * Return: length
  */
-int _strlen(char *str)
+int _strlen(const char *str)
 {
 	int len = 0;
 
