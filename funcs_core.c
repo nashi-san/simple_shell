@@ -122,19 +122,36 @@ int execute_builtin(char *line, char **argv, int n, int *exit_status)
 		{"unsetenv", unsetenv_builtin},
 		{NULL, NULL}
 	};
-
-	int i;
+	char **env_copy = NULL;
+	int i, j, result;
+	for (i = 0; environ[i] != NULL; i++) {
+		env_copy = realloc(env_copy, (i + 2) * sizeof(char *));
+		env_copy[i] = strdup(environ[i]);
+	}
+	env_copy[i] = NULL;
 
 	for (i = 0; builtins[i].name != NULL; i++)
 	{
 		if (_strcmp(argv[0], builtins[i].name) == 0)
 		{
-			return (builtins[i].function(line, argv, n, exit_status));
+			result = builtins[i].function(line, argv, n, exit_status, &env_copy);
+
+			for (j = 0; env_copy[j] != NULL; j++)
+			{
+				free(env_copy[j]);
+			}
+			free(env_copy);
+			return (result);
 		}
 	}
+
+	for (j = 0; env_copy[j] != NULL; j++) {
+		free(env_copy[j]);
+	}
+	free(env_copy);
+
 	return (1);
 }
-
 /**
  * execute_command - calls execve to execute a command
  * @argv: array of tokens

@@ -36,7 +36,8 @@ char *_getenv(char *variable)
  * Return: 0 on success, 1 on failure
  */
 int unsetenv_builtin(__attribute__((unused)) char *line, char **argv,
-		__attribute__((unused)) int n, __attribute__((unused)) int *exit_status)
+		__attribute__((unused)) int n, __attribute__((unused)) int *exit_status,
+		__attribute__((unused)) char ***env_copy)
 {
 	char *variable = argv[1];
 	int i, j;
@@ -74,34 +75,41 @@ int unsetenv_builtin(__attribute__((unused)) char *line, char **argv,
  *
  * Return: 0 on success, 1 on failure
  */
-int _setenv(char *variable, char *value)
+int _setenv(char *variable, char *value, char ***env_copy)
 {
-	int i;
-	char *new_var = malloc(strlen(variable) + strlen(value) + 2);
+    int i;
+    char *new_var = malloc(strlen(variable) + strlen(value) + 2);
 
-	if (new_var == NULL)
-	{
-		return (-1);
-	}
+    if (new_var == NULL)
+    {
+        return (-1);
+    }
 
-	strcpy(new_var, variable);
-	strcat(new_var, "=");
-	strcat(new_var, value);
+    strcpy(new_var, variable);
+    strcat(new_var, "=");
+    strcat(new_var, value);
 
-	for (i = 0; environ[i] != NULL; i++)
-	{
-		if (strncmp(environ[i], variable, strlen(variable)) == 0
-				&& environ[i][strlen(variable)] == '=')
-		{
-			environ[i] = new_var;
-			return (0);
-		}
-	}
-	environ[i] = new_var;
-	environ[i + 1] = NULL;
-	return (0);
+    for (i = 0; (*env_copy)[i] != NULL; i++)
+    {
+        if (strncmp((*env_copy)[i], variable, strlen(variable)) == 0
+                && (*env_copy)[i][strlen(variable)] == '=')
+        {
+            free((*env_copy)[i]);
+            (*env_copy)[i] = new_var;
+            return (0);
+        }
+    }
+    *env_copy = realloc(*env_copy, (i + 2) * sizeof(char *));
+    if (*env_copy == NULL)
+    {
+        free(new_var);
+        return (-1);
+    }
+
+    (*env_copy)[i] = new_var;
+    (*env_copy)[i + 1] = NULL;
+    return (0);
 }
-
 /**
  * setenv_builtin - Built-in function to set environment variable
  * @line: command line (input)
@@ -112,11 +120,11 @@ int _setenv(char *variable, char *value)
  * Return: 0 on success, 1 on failure
  */
 int setenv_builtin(__attribute__((unused)) char *line, char **argv,
-		__attribute__((unused)) int n, __attribute__((unused)) int *exit_status)
+		__attribute__((unused)) int n, __attribute__((unused)) int *exit_status, char ***env_copy)
 {
 	if (argv[1] == NULL || argv[2] == NULL)
 	{
 		return (1);
 	}
-	return (_setenv(argv[1], argv[2]));
+	return (_setenv(argv[1], argv[2], env_copy));
 }

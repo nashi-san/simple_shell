@@ -12,13 +12,14 @@
 int env_builtin(__attribute__((unused)) char *line,
 		__attribute__((unused)) char **argv,
 		__attribute__((unused)) int n,
-		__attribute__((unused)) int *exit_status)
+		__attribute__((unused)) int *exit_status,
+		char ***env_copy)
 {
 	int i = 0;
 
-	while (environ[i] != NULL)
+	while ((*env_copy)[i] != NULL)
 	{
-		_puts_stdout(environ[i]);
+		_puts_stdout((*env_copy)[i]);
 		_putchar('\n');
 		i++;
 	}
@@ -34,7 +35,8 @@ int env_builtin(__attribute__((unused)) char *line,
  *
  * Return: 0 on failure, otherwise exits with an exit status
  */
-int exit_builtin(char *line, char **argv, int n, int *exit_status)
+int exit_builtin(char *line, char **argv, int n, int *exit_status,
+		__attribute__((unused)) char ***env_copy)
 {
 	int i, is_valid, status_converted;
 	char *status = argv[1];
@@ -85,7 +87,8 @@ int exit_builtin(char *line, char **argv, int n, int *exit_status)
  */
 int cd_builtin(__attribute__((unused)) char *line,
 		char **argv, int n,
-		__attribute__((unused)) int *exit_status)
+		__attribute__((unused)) int *exit_status,
+		__attribute__((unused)) char ***env_copy)
 {
 	char curr_dir[BUF_SIZE];
 	char *home_dir = _getenv("HOME"), *prev_dir = _getenv("OLDPWD");
