@@ -72,17 +72,16 @@ int unsetenv_builtin(__attribute__((unused)) char *line, char **argv,
  * @value: The value to set for the variable
  * @exit_status: Pointer to the exit status variable
  *
- * Return: 1 on success, 0 on failure
+ * Return: 0 on success, 1 on failure
  */
-int _setenv(char *variable, char *value, int *exit_status)
+int _setenv(char *variable, char *value)
 {
 	int i;
 	char *new_var = malloc(strlen(variable) + strlen(value) + 2);
 
 	if (new_var == NULL)
 	{
-		*exit_status = 0;
-		return (0);
+		return (-1);
 	}
 
 	strcpy(new_var, variable);
@@ -95,14 +94,12 @@ int _setenv(char *variable, char *value, int *exit_status)
 				&& environ[i][strlen(variable)] == '=')
 		{
 			environ[i] = new_var;
-			*exit_status = 1;
-			return (1);
+			return (0);
 		}
 	}
 	environ[i] = new_var;
 	environ[i + 1] = NULL;
-	*exit_status = 1;
-	return (1);
+	return (0);
 }
 
 /**
@@ -112,15 +109,14 @@ int _setenv(char *variable, char *value, int *exit_status)
  * @n: count of commands
  * @exit_status: exit status
  *
- * Return: 1 on success, 0 on failure
+ * Return: 0 on success, 1 on failure
  */
 int setenv_builtin(__attribute__((unused)) char *line, char **argv,
-		__attribute__((unused)) int n, int *exit_status)
+		__attribute__((unused)) int n, __attribute__((unused)) int *exit_status)
 {
 	if (argv[1] == NULL || argv[2] == NULL)
 	{
-		*exit_status = 0;
-		return (0);
+		return (1);
 	}
-	return (_setenv(argv[1], argv[2], exit_status));
+	return (_setenv(argv[1], argv[2]));
 }

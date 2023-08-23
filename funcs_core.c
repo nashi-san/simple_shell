@@ -118,6 +118,7 @@ int execute_builtin(char *line, char **argv, int n, int *exit_status)
 		{"exit", exit_builtin},
 		{"env", env_builtin},
 		{"cd", cd_builtin},
+		{"setenv", setenv_builtin},
 		{"unsetenv", unsetenv_builtin},
 		{NULL, NULL}
 	};
