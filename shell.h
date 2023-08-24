@@ -61,7 +61,7 @@ void free_array(char **argv);
 void free_aliases(ali_t **ali_list);
 char *_memcpy(char *dest, const char *src, unsigned int m);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-
+void cleanup(ali_t **ali_list, char **env_copy);
 /*funcs_str1*/
 char *_strchr(char *s, char c);
 char *n_conversion(int n);
