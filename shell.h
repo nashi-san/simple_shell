@@ -72,6 +72,7 @@ char *_getenv(char *variable);
 void err_msg_cmd(char **argv, int n);
 void err_msg_exit(char *status, int n);
 void err_msg_cd(char **argv, int n);
+void err_msg_file(char **argv, int n);
 
 int _putchar(char c);
 int _puts_stderr(char *s);
