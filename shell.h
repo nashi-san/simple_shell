@@ -64,10 +64,10 @@ int _unsetenv(char *variable);
 void copy_environ(void);
 
 char *_which(char *command);
-ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
-int _getchar(void);
 char *_strtok(char *str, char *delimiters);
 char *_getenv(char *variable);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
+int _getchar(void);
 
 void err_msg_cmd(char **argv, int n);
 void err_msg_exit(char *status, int n);
