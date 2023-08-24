@@ -40,11 +40,13 @@ void free_aliases(ali_t **ali_list)
  * cleanup - frees allocated memory for aliases and environment copy.
  * @ali_list: a double pointer to the head of alias list.
  * @env_copy: a double pointer to the environment copy.
+ * @line: a pointer to a string representing the line of command
  */
-void cleanup(ali_t **ali_list, char **env_copy)
+void cleanup(ali_t **ali_list, char **env_copy, char *line)
 {
 	free_aliases(ali_list);
 	free_array(env_copy);
+	free(line);
 }
 /**
  * _memcpy - copy m bytes from m1 to m2
