@@ -67,3 +67,25 @@ void err_msg_cd(char **argv, int n)
 
 	free(n_str);
 }
+
+/**
+ * err_msg_file - writes an error msg to stderr
+ * @argv: array of tokens
+ * @n: count of commands
+ *
+ * Return: void
+ */
+void err_msg_file(char **argv, int n)
+{
+	char *n_str;
+
+	n_str = n_conversion(n);
+
+	_puts_stderr("./hsh: ");
+	_puts_stderr(n_str);
+	_puts_stderr(": Can't open ");
+	_puts_stderr(argv[1]);
+	_puts_stderr("\n");
+
+	free(n_str);
+}
