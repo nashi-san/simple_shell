@@ -31,9 +31,7 @@ int main(int argc, char **argv)
 			{
 				is_builtin = execute_builtin(line, argv, n, &exit_status);
 				if (is_builtin == 1)
-				{
 					exit_status = exe(argv, n);
-				}
 			}
 			free_array(argv);
 		}
