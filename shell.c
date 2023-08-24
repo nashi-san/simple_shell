@@ -2,8 +2,8 @@
 
 /**
  * main - interprets a UNIX command line
- * @argc: count of tokens
- * @argv: array of tokens
+ * @argc: count of arguments
+ * @argv: array of pointers to arguments strings
  *
  * Return: 0 on success
  */
