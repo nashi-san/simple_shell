@@ -37,6 +37,16 @@ void free_aliases(ali_t **ali_list)
 	*ali_list = NULL;
 }
 /**
+ * cleanup - frees allocated memory for aliases and environment copy.
+ * @ali_list: a double pointer to the head of alias list.
+ * @env_copy: a double pointer to the environment copy.
+ */
+void cleanup(ali_t **ali_list, char **env_copy)
+{
+	free_aliases(ali_list);
+	free_array(env_copy);
+}
+/**
  * _memcpy - copy m bytes from m1 to m2
  * @dest: 1st memory block
  * @src: 2nd memory block

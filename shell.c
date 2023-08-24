@@ -41,13 +41,11 @@ int main(int argc, char **argv)
 			if (interactive == 1)
 				_putchar('\n');
 			free(line);
-			free_aliases(&ali_list);
-			free_array(env_copy);
+			cleanup(&ali_list, env_copy);
 			return (exit_status);
 		}
 	}
 	free(line);
-	free_aliases(&ali_list);
-	free_array(env_copy);
+	cleanup(&ali_list, env_copy);
 	return (0);
 }
