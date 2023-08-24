@@ -108,10 +108,11 @@ char **process_line(char *line, int *argc)
  * @argv: array of tokens
  * @n: count of commands
  * @exit_status: exit status
- *
+ * @ali_list: a double pointer to the aliases list
  * Return: 1 if no builtin was found
  */
-int execute_builtin(char *line, char **argv, int n, int *exit_status)
+int execute_builtin(char *line, char **argv, int n, int *exit_status,
+ali_t **ali_list)
 {
 	builtin_t builtins[] = {
 		{"exit", exit_builtin},
@@ -119,6 +120,7 @@ int execute_builtin(char *line, char **argv, int n, int *exit_status)
 		{"cd", cd_builtin},
 		{"setenv", setenv_builtin},
 		{"unsetenv", unsetenv_builtin},
+		{"alias", alias_builtin},
 		{NULL, NULL}
 	};
 
@@ -128,7 +130,7 @@ int execute_builtin(char *line, char **argv, int n, int *exit_status)
 	{
 		if (_strcmp(argv[0], builtins[i].name) == 0)
 		{
-			return (builtins[i].function(line, argv, n, exit_status));
+			return (builtins[i].function(line, argv, n, exit_status, ali_list));
 		}
 	}
 	return (1);

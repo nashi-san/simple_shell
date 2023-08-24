@@ -43,11 +43,13 @@ int _unsetenv(char *variable)
  * @argv: array of tokens
  * @n: count of commands
  * @exit_status: Pointer to the exit status
+ * @ali_list: a double pointer to the aliases list
  *
  * Return: 0 on success, 1 on failure
  */
 int unsetenv_builtin(__attribute__((unused)) char *line, char **argv,
-		__attribute__((unused)) int n, __attribute__((unused)) int *exit_status)
+		__attribute__((unused)) int n, __attribute__((unused)) int *exit_status,
+		__attribute__((unused)) ali_t **ali_list)
 {
 	if (argv[1] == NULL)
 	{
@@ -99,7 +101,6 @@ int _setenv(char *variable, char *value)
 	env_copy[i] = strdup(new_entry);
 	env_copy[i + 1] = NULL;
 	free(new_entry);
-
 	return (0);
 }
 
@@ -109,11 +110,13 @@ int _setenv(char *variable, char *value)
  * @argv: array of tokens
  * @n: count of commands
  * @exit_status: exit status
+ * @ali_list: a double pointer to the aliases list
  *
  * Return: 0 on success, 1 on failure
  */
 int setenv_builtin(__attribute__((unused)) char *line, char **argv,
-		__attribute__((unused)) int n, __attribute__((unused)) int *exit_status)
+		__attribute__((unused)) int n, __attribute__((unused)) int *exit_status,
+		__attribute__((unused)) ali_t **ali_list)
 {
 	if (argv[1] == NULL || argv[2] == NULL)
 	{

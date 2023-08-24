@@ -1,14 +1,15 @@
 #include "shell.h"
-
 /**
  * main - interprets a UNIX command line
- * @argc: count of arguments
- * @argv: array of pointers to arguments strings
+ * @argc: count of tokens
+ * @argv: array of tokens
  *
  * Return: 0 on success
  */
+
 int main(int argc, char **argv)
 {
+	ali_t *ali_list = NULL;
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t nread = 0;
@@ -29,7 +30,7 @@ int main(int argc, char **argv)
 			argv = process_line(line, &argc);
 			if (argc != 0)
 			{
-				is_builtin = execute_builtin(line, argv, n, &exit_status);
+				is_builtin = execute_builtin(line, argv, n, &exit_status, &ali_list);
 				if (is_builtin == 1)
 					exit_status = exe(argv, n);
 			}
@@ -40,11 +41,13 @@ int main(int argc, char **argv)
 			if (interactive == 1)
 				_putchar('\n');
 			free(line);
+			free_aliases(&ali_list);
 			free_array(env_copy);
 			return (exit_status);
 		}
 	}
 	free(line);
+	free_aliases(&ali_list);
 	free_array(env_copy);
 	return (0);
 }

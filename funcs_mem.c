@@ -18,6 +18,25 @@ void free_array(char **argv)
 	free(argv);
 }
 /**
+ * free_aliases - frees the memory allocated for the alias list
+ * @ali_list: a double pointer to the head of the alias list
+ */
+void free_aliases(ali_t **ali_list)
+{
+	ali_t *current = *ali_list;
+	ali_t *next;
+
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current->name);
+		free(current->value);
+		free(current);
+		current = next;
+	}
+	*ali_list = NULL;
+}
+/**
  * _memcpy - copy m bytes from m1 to m2
  * @dest: 1st memory block
  * @src: 2nd memory block
