@@ -1,1 +1,3 @@
-Simple Shell
+Simple Shell - Project
+
+A UNIX command line interpreter.
