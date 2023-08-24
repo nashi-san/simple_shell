@@ -99,6 +99,7 @@ int _setenv(char *variable, char *value)
 	env_copy[i] = strdup(new_entry);
 	env_copy[i + 1] = NULL;
 	free(new_entry);
+
 	return (0);
 }
 
