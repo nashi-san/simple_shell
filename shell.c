@@ -9,7 +9,7 @@
 int main(int argc, char **argv)
 {
 	ali_t *ali_list = NULL;
-	char *line = NULL, *token;
+	char *line = NULL;
 	size_t len = 0;
 	ssize_t nread = 0;
 	int interactive = 0, n = 0, exit_status = 0, is_builtin = 1;
@@ -26,19 +26,14 @@ int main(int argc, char **argv)
 		handle_comment(line);
 		if (nread != -1)
 		{
-			token = strtok(line, ";");
-			while (token != NULL)
+			argv = process_line(line, &argc);
+			if (argc != 0)
 			{
-				argv = process_line(token, &argc);
-				if (argc != 0)
-				{
-					is_builtin = execute_builtin(token, argv, n, &exit_status, &ali_list);
-					if (is_builtin == 1)
-						exit_status = exe(argv, n);
-				}
-				free_array(argv);
-				token = strtok(NULL, ";");
+				is_builtin = execute_builtin(line, argv, n, &exit_status, &ali_list);
+				if (is_builtin == 1)
+					exit_status = exe(argv, n);
 			}
+			free_array(argv);
 		}
 		else
 		{
