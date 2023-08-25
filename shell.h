@@ -93,6 +93,8 @@ void print_single_alias(char *alias_name, ali_t *ali_list);
 void update_alias(char *alias_name, char *alias_value,
 		ali_t **ali_list);
 void create_alias(char *alias_name, char *alias_value, ali_t **ali_list);
+/*my_alias2*/
+char *find_alias(char *alias_name, ali_t **ali_list);
 /*funcs_env*/
 char **env_copy;
 int setenv_builtin(char *line, char **argv, int n,
