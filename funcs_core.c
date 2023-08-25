@@ -4,24 +4,45 @@
  * exe - loads the path to a command to be executed
  * @argv: array of tokens
  * @n: count of commands
- *
+ * @ali_list: a double pointer to the head of the alias linked list
  * Return: exit status
  */
-int exe(char **argv, int n)
+int exe(char **argv, int n, ali_t **ali_list)
 {
 	char *path = NULL;
 	int exit_status;
+	char *alias_value = find_alias(argv[0], ali_list);
 
-	path = _which(argv[0]);
-	if (path == NULL)
+	if (alias_value != NULL)
 	{
-		err_msg_cmd(argv, n);
-		exit_status = 127;
+		argv[0] = alias_value;
+		path = _which(argv[0]);
+
+		if (path == NULL)
+		{
+			err_msg_cmd(argv, n);
+			exit_status = 127;
+		}
+		else
+		{
+			exit_status = execute_command(argv, path);
+			free(path);
+		}
 	}
 	else
 	{
-		exit_status = execute_command(argv, path);
-		free(path);
+		path = _which(argv[0]);
+
+		if (path == NULL)
+		{
+			err_msg_cmd(argv, n);
+			exit_status = 127;
+		}
+		else
+		{
+			exit_status = execute_command(argv, path);
+			free(path);
+		}
 	}
 	return (exit_status);
 }
@@ -112,7 +133,7 @@ char **process_line(char *line, int *argc)
  * Return: 1 if no builtin was found
  */
 int execute_builtin(char *line, char **argv, int n, int *exit_status,
-ali_t **ali_list)
+		ali_t **ali_list)
 {
 	builtin_t builtins[] = {
 		{"exit", exit_builtin},

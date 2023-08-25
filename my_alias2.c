@@ -15,7 +15,7 @@ char *find_alias(char *alias_name, ali_t **ali_list)
 		if (_strcmp(current->name, alias_name) == 0)
 		{
 
-			return (current->alias_value);
+			return (current->value);
 		}
 		current = current->next;
 	}
