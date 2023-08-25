@@ -49,7 +49,7 @@ typedef struct builtin builtin_t;
 
 
 /*funcs_core*/
-int exe(char **argv, int n);
+int exe(char **argv, int n, ali_t **ali_list);
 void handle_comment(char *line);
 char **process_line(char *line, int *argc);
 int execute_builtin(char *line, char **argv, int n, int *exit_status,
