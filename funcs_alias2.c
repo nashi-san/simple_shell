@@ -31,5 +31,5 @@ char *find_alias(char *alias_name, ali_t **ali_list)
 		return (the_end_value);
 	}
 
-	return _strdup(alias_name);
+	return (_strdup(alias_name));
 }
