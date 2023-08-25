@@ -15,8 +15,7 @@ int exe(char **argv, int n, ali_t **ali_list)
 
 	if (alias_value != NULL)
 	{
-		argv[0] = alias_value;
-		path = _which(argv[0]);
+		path = _which(alias_value);
 
 		if (path == NULL)
 		{
@@ -28,6 +27,7 @@ int exe(char **argv, int n, ali_t **ali_list)
 			exit_status = execute_command(argv, path);
 			free(path);
 		}
+		free(alias_value);
 	}
 	else
 	{

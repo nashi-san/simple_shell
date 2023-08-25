@@ -1,7 +1,6 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-/*libraries*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,9 +12,8 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
-/*globalvar*/
 extern char **environ;
-/*buffer*/
+
 #define BUF_SIZE 128
 /**
  * struct ali - aliases linked list.
@@ -44,7 +42,6 @@ struct builtin
 	int (*function)(char *line, char **argv, int n, int *exit_status,
 	ali_t **ali_list);
 };
-
 typedef struct builtin builtin_t;
 
 
@@ -62,6 +59,7 @@ void free_aliases(ali_t **ali_list);
 char *_memcpy(char *dest, const char *src, unsigned int m);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void cleanup(ali_t **ali_list, char **env_copy, char *line);
+
 /*funcs_str1*/
 char *_strchr(char *s, char c);
 char *n_conversion(int n);
@@ -85,7 +83,7 @@ int cd_builtin(char *line, char **argv, int n,
 		int *exit_status, ali_t **ali_list);
 void cd_update_env(void);
 
-/*my_alias*/
+/*funcs_alias*/
 int alias_builtin(char *line, char **argv, int n,
 		int *exit_status, ali_t **ali_list);
 void print_alias(ali_t *ali_list);
@@ -93,8 +91,8 @@ void print_single_alias(char *alias_name, ali_t *ali_list);
 void update_alias(char *alias_name, char *alias_value,
 		ali_t **ali_list);
 void create_alias(char *alias_name, char *alias_value, ali_t **ali_list);
-/*my_alias2*/
 char *find_alias(char *alias_name, ali_t **ali_list);
+
 /*funcs_env*/
 char **env_copy;
 int setenv_builtin(char *line, char **argv, int n,
@@ -104,6 +102,7 @@ int unsetenv_builtin(char *line, char **argv, int n,
 		int *exit_status, ali_t **ali_list);
 int _unsetenv(char *variable);
 void copy_environ(void);
+
 /*funcs_custom*/
 char *_which(char *command);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
