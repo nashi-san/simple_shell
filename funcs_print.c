@@ -23,18 +23,13 @@ int _puts_stderr(char *s)
 }
 
 /**
- * _puts_stdout - prints a string to stdout
- * @str: string
+ * _puts_stdout - writes a string to stdout
+ * @s: string
  *
- * Return: void
+ * Return: number of chars written, -1 on error
  */
-void _puts_stdout(char *str)
+int _puts_stdout(char *s)
 {
-	int i = 0;
-
-	while (str[i] != '\0')
-	{
-		_putchar(str[i]);
-		i++;
-	}
+	return (write(1, s, _strlen(s)));
 }
+

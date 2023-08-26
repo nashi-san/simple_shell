@@ -3,6 +3,8 @@
 /**
  * env_builtin - prints the current environment vars
  * @line: command line (input)
+ * @cmds: commands
+ * @com: sub-command
  * @argv: array of tokens
  * @n: count of commands
  * @exit_status: exit status
@@ -10,11 +12,9 @@
  *
  * Return: 0 on success
  */
-int env_builtin(__attribute__((unused)) char *line,
-		__attribute__((unused)) char **argv,
-		__attribute__((unused)) int n,
-		__attribute__((unused)) int *exit_status,
-		__attribute__((unused)) ali_t **ali_list)
+int env_builtin(UNUSED char *line, UNUSED char **cmds, UNUSED char *com,
+		UNUSED char **argv, UNUSED int n, UNUSED int *exit_status,
+		UNUSED ali_t **ali_list)
 {
 	int i = 0;
 
@@ -30,6 +30,8 @@ int env_builtin(__attribute__((unused)) char *line,
 /**
  * exit_builtin - exits the shell with a specific status
  * @line: command line (input)
+ * @cmds: commands
+ * @com: sub-command
  * @argv: array of tokens
  * @n: count of commands
  * @exit_status: exit status
@@ -37,8 +39,8 @@ int env_builtin(__attribute__((unused)) char *line,
  *
  * Return: 0 on failure, otherwise exits with an exit status
  */
-int exit_builtin(char *line, char **argv, int n, int *exit_status,
-ali_t **ali_list)
+int exit_builtin(char *line, char **cmds, char *com, char **argv, int n,
+		int *exit_status, ali_t **ali_list)
 {
 	int i, is_valid, status_converted;
 	char *status = argv[1];
@@ -57,10 +59,10 @@ ali_t **ali_list)
 		status_converted = _atoi(status);
 		if (is_valid && status_converted > 0)
 		{
-			free_aliases(ali_list);
-			free_array(env_copy);
+			cleanup(ali_list, env_copy, line);
 			free_array(argv);
-			free(line);
+			free(com);
+			free(cmds);
 			exit(status_converted);
 		}
 		else
@@ -72,18 +74,19 @@ ali_t **ali_list)
 	}
 	else
 	{
-		free_aliases(ali_list);
-		free_array(env_copy);
+		cleanup(ali_list, env_copy, line);
 		free_array(argv);
-		free(line);
+		free(com);
+		free(cmds);
 		exit(*exit_status);
 	}
 	return (0);
 }
-
 /**
  * cd_builtin - handles the cd builtin
  * @line: command line (input)
+ * @cmds: commands
+ * @com: sub-command
  * @argv: array of tokens
  * @n: count of commands
  * @exit_status: exit status
@@ -91,9 +94,8 @@ ali_t **ali_list)
  *
  * Return: 0 on success
  */
-int cd_builtin(__attribute__((unused)) char *line, char **argv,
-		int n, __attribute__((unused)) int *exit_status,
-		__attribute__((unused)) ali_t **ali_list)
+int cd_builtin(UNUSED char *line, UNUSED char **cmds, UNUSED char *com,
+		char **argv, int n, UNUSED int *exit_status, UNUSED ali_t **ali_list)
 {
 	char curr_dir[BUF_SIZE];
 	char *home_dir = _getenv("HOME"), *prev_dir = _getenv("OLDPWD");

@@ -2,6 +2,8 @@
 /**
  * alias_builtin - handles the 'alias' built-in command.
  * @line: the input line containing the command and arguments.
+ * @cmds: commands
+ * @com: sub-command
  * @argv: an array of strings containing the command and arguments.
  * @n: the number of arguments.
  * @exit_status: a pointer to the exit status variable.
@@ -10,9 +12,8 @@
  * Return: Always returns 0.
  */
 
-int alias_builtin(__attribute__((unused)) char *line, char **argv,
-		__attribute__((unused)) int n, __attribute__((unused)) int *exit_status,
-		ali_t **ali_list)
+int alias_builtin(UNUSED char *line, UNUSED char **cmds, UNUSED char *com,
+		char **argv, UNUSED int n, UNUSED int *exit_status, ali_t **ali_list)
 {
 
 	char *alias_name, *alias_value, *arg;

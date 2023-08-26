@@ -77,12 +77,13 @@ void handle_comment(char *line)
  * process_line - tokenizes the command line
  * @line: command line (input)
  * @argc: count of tokens
+ * @delim: delimiters
  *
  * Return: array of tokens
  */
-char **process_line(char *line, int *argc)
+char **process_line(char *line, int *argc, char *delim)
 {
-	char **array = NULL, **new_array = NULL, *token, *delim = " \t\n";
+	char **array = NULL, **new_array = NULL, *token;
 	size_t i = 0, size, new_size;
 
 	size = BUF_SIZE;
@@ -126,14 +127,16 @@ char **process_line(char *line, int *argc)
 /**
  * execute_builtin - handles built-ins
  * @line: command line (input)
+ * @cmds: commands
+ * @com: sub-command
  * @argv: array of tokens
  * @n: count of commands
  * @exit_status: exit status
  * @ali_list: a double pointer to the aliases list
  * Return: 1 if no builtin was found
  */
-int execute_builtin(char *line, char **argv, int n, int *exit_status,
-		ali_t **ali_list)
+int execute_builtin(char *line, char **cmds, char *com, char **argv, int n,
+		int *exit_status, ali_t **ali_list)
 {
 	builtin_t builtins[] = {
 		{"exit", exit_builtin},
@@ -151,7 +154,8 @@ int execute_builtin(char *line, char **argv, int n, int *exit_status,
 	{
 		if (_strcmp(argv[0], builtins[i].name) == 0)
 		{
-			return (builtins[i].function(line, argv, n, exit_status, ali_list));
+			return (builtins[i].function(line, cmds, com, argv, n,
+						exit_status, ali_list));
 		}
 	}
 	return (1);

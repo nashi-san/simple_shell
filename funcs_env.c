@@ -40,6 +40,8 @@ int _unsetenv(char *variable)
 /**
  * unsetenv_builtin - Built-in function to unset environment variable
  * @line: command line (input)
+ * @cmds: commands
+ * @com: sub-command
  * @argv: array of tokens
  * @n: count of commands
  * @exit_status: Pointer to the exit status
@@ -47,9 +49,9 @@ int _unsetenv(char *variable)
  *
  * Return: 0 on success, 1 on failure
  */
-int unsetenv_builtin(__attribute__((unused)) char *line, char **argv,
-		__attribute__((unused)) int n, __attribute__((unused)) int *exit_status,
-		__attribute__((unused)) ali_t **ali_list)
+int unsetenv_builtin(UNUSED char *line, UNUSED char **cmds, UNUSED char *com,
+		char **argv, UNUSED int n, UNUSED int *exit_status,
+		UNUSED ali_t **ali_list)
 {
 	if (argv[1] == NULL)
 	{
@@ -107,6 +109,8 @@ int _setenv(char *variable, char *value)
 /**
  * setenv_builtin - Built-in function to set environment variable
  * @line: command line (input)
+ * @cmds: commands
+ * @com: sub-command
  * @argv: array of tokens
  * @n: count of commands
  * @exit_status: exit status
@@ -114,9 +118,9 @@ int _setenv(char *variable, char *value)
  *
  * Return: 0 on success, 1 on failure
  */
-int setenv_builtin(__attribute__((unused)) char *line, char **argv,
-		__attribute__((unused)) int n, __attribute__((unused)) int *exit_status,
-		__attribute__((unused)) ali_t **ali_list)
+int setenv_builtin(UNUSED char *line, UNUSED char **cmds,
+		UNUSED char *com, char **argv, UNUSED int n,
+		UNUSED int *exit_status, UNUSED ali_t **ali_list)
 {
 	if (argv[1] == NULL || argv[2] == NULL)
 	{
