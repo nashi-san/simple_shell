@@ -4,4 +4,4 @@ A UNIX command line interpreter.
 
 Built-ins commands:
 
-exit, env, setenv, unsetenv, 
+exit, env, setenv, unsetenv, cd, alias. 
